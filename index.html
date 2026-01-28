@@ -116,7 +116,7 @@
   <div class="container is-fluid">
     <div class="columns">
 
-      <div class="column">
+      <div class="column" style="overflow: hidden;">
         <video
           autoplay
           muted
@@ -124,16 +124,18 @@
           playsinline
           controls
           style="
+            display: block;
             width: 100%;
+            max-width: 100%;
+            height: auto;
             max-height: 60vh;
             object-fit: contain;
-            background: black;
           ">
           <source src="./static/videos/handover_annotated.mp4" type="video/mp4">
         </video>
       </div>
 
-      <div class="column">
+      <div class="column" style="overflow: hidden;">
         <video
           autoplay
           muted
@@ -141,10 +143,12 @@
           playsinline
           controls
           style="
+            display: block;
             width: 100%;
+            max-width: 100%;
+            height: auto;
             max-height: 60vh;
             object-fit: contain;
-            background: black;
           ">
           <source src="./static/videos/open_drawer_annotated.mp4" type="video/mp4">
         </video>
@@ -153,6 +157,7 @@
     </div>
   </div>
 </section>
+
 
 
 

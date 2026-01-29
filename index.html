@@ -35,6 +35,23 @@
     .demo-card img { width: 100%; border-radius: 12px; }
     .demo-cap { text-align: center; margin-top: 6px; font-weight: 600; }
 
+    /* Real robot tasks: equal-size caption boxes + consistent video styling */
+    .instruction-box {
+      height: 90px;                 /* same height for all caption boxes */
+      display: flex;
+      align-items: center;          /* vertical centering */
+      justify-content: center;      /* horizontal centering */
+      text-align: center;
+      background-color: #f5f5f5;
+      padding: 0.75rem;
+    }
+    .task-video {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      display: block;
+    }
+
     /* Tables: do NOT stretch full width; center them; allow scroll on small screens */
     .table-wrap {
       max-width: 1100px;
@@ -93,9 +110,11 @@
 </section>
 
 <!-- ================= TEASER IMAGE ================= -->
-<!-- <section class="section has-text-centered">
+<!--
+<section class="section has-text-centered">
   <img class="figure" src="./static/images/prism_example.png" style="max-width:60%;">
-</section> --> -->
+</section>
+-->
 
 <!-- Teaser video (commented out) -->
 <!--
@@ -108,6 +127,7 @@
     </div>
   </div>
 </section>
+-->
 
 <!-- ================= REAL ROBOT VIDEO TEASERS ================= -->
 <section class="section">
@@ -158,11 +178,6 @@
   </div>
 </section>
 
-
-
-
-  
-
 <!-- ================= ABSTRACT ================= -->
 <section class="section">
   <div class="container is-max-desktop">
@@ -188,48 +203,70 @@
   </div>
 </section>
 
-  <section class="section">
-  <h2 class="title is-3 has-text-centered">Real Robot Tasks</h2>
+
+<!-- ================= ARCHITECTURE ================= -->
+<section class="section has-text-centered">
+  <h2 class="title is-3">PRISM Architecture</h2>
+  <img class="figure" src="./static/images/prism_framework.png" style="max-width:50%;">
+</section>
+
+  
+
+<!-- ================= REAL ROBOT TASKS ================= -->
+<section class="section">
+  <h2 class="title is-3 has-text-centered">Real-World Experiments</h2>
 
   <div class="container">
     <div class="columns is-multiline is-centered is-variable is-4">
 
       <!-- Stack Blocks -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box" style="background-color: #f5f5f5; padding: 1rem;">
-          <strong>Instruction:</strong> Stack two blocks
+        <div class="box instruction-box">
+          <div>
+            <strong>Instruction:</strong><br>
+            Stack two blocks
+          </div>
         </div>
-        <video autoplay muted loop playsinline controls style="width: 100%; border-radius: 8px; margin-top: 0.5rem;">
+        <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/stack_blocks.mp4" type="video/mp4">
         </video>
       </div>
 
       <!-- Open Drawer -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box" style="background-color: #f5f5f5; padding: 1rem;">
-          <strong>Instruction:</strong> Put the item inside the drawer
+        <div class="box instruction-box">
+          <div>
+            <strong>Instruction:</strong><br>
+            Put the item inside the drawer
+          </div>
         </div>
-        <video autoplay muted loop playsinline controls style="width: 100%; border-radius: 8px; margin-top: 0.5rem;">
+        <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/open_drawer.mp4" type="video/mp4">
         </video>
       </div>
 
       <!-- Handover -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box" style="background-color: #f5f5f5; padding: 1rem;">
-          <strong>Instruction:</strong> Handover the item to the other robot
+        <div class="box instruction-box">
+          <div>
+            <strong>Instruction:</strong><br>
+            Handover the item to the other robot
+          </div>
         </div>
-        <video autoplay muted loop playsinline controls style="width: 100%; border-radius: 8px; margin-top: 0.5rem;">
+        <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/handover_item.mp4" type="video/mp4">
         </video>
       </div>
 
       <!-- Sort Item -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box" style="background-color: #f5f5f5; padding: 1rem;">
-          <strong>Instruction:</strong> Sort the item into the correct location
+        <div class="box instruction-box">
+          <div>
+            <strong>Instruction:</strong><br>
+            Sort the item into the correct location
+          </div>
         </div>
-        <video autoplay muted loop playsinline controls style="width: 100%; border-radius: 8px; margin-top: 0.5rem;">
+        <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/sort_items.mp4" type="video/mp4">
         </video>
       </div>
@@ -238,22 +275,18 @@
   </div>
 </section>
 
-
 <!-- ================= RLBench-COLLAB ================= -->
 <section class="section has-text-centered">
+  <h2 class="title is-3">Simulation in RLBench</h2>
   <h2 class="title is-3">RLBench-COLLAB Task Suite</h2>
   <img class="figure" src="./static/images/rlbench_task_suit.png" style="max-width:60%;">
 </section>
 
-<!-- ================= ARCHITECTURE ================= -->
-<section class="section has-text-centered">
-  <h2 class="title is-3">PRISM Architecture</h2>
-  <img class="figure" src="./static/images/prism_framework.png" style="max-width:50%;">
-</section>
+
 
 <!-- ================= SIMULATION DEMOS ================= -->
 <section class="section">
-  <h2 class="title is-3 has-text-centered">Successful Task Execution Examples (Simulation)</h2>
+  <h2 class="title is-3 has-text-centered">Successful Task Execution Examples</h2>
   <div class="container demo-grid">
     <div class="demo-card"><img src="./static/images/stack_block.gif"><div class="demo-cap">Stack Blocks</div></div>
     <div class="demo-card"><img src="./static/images/pyramid_stacking.gif"><div class="demo-cap">Pyramid Stacking</div></div>
@@ -375,15 +408,6 @@
 
   </div>
 </section>
-
-
-
-
-
-
-
-
-
 
 <footer class="footer">
   <div class="container">

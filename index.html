@@ -19,10 +19,121 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/index.js"></script>
-  
+
   <style>
+    :root{
+      --content-max: 1100px;         /* global content width */
+      --teaser-max: 980px;           /* teaser width control */
+      --section-gap-y: 2.25rem;
+    }
+
+    body { font-family: "Noto Sans", sans-serif; }
     .figure { border-radius: 12px; }
-    .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+    .section { padding-top: var(--section-gap-y); padding-bottom: var(--section-gap-y); }
+
+    /* Centered content wrapper (consistent page rhythm) */
+    .content-wrap {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Headings: left-aligned sections + smaller subsections */
+    .section-title {
+      text-align: left;
+      font-size: 1.75rem;   /* section */
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .subsection-title {
+      text-align: left;
+      font-size: 1.25rem;   /* subsection */
+      font-weight: 800;
+      margin: 1.25rem 0 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .section-note {
+      text-align: left;
+      color: #6b7280;
+      margin-top: -0.35rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Hero / title: make it tighter + smaller */
+    .hero { padding: 1.5rem 0; }
+    .hero .title {
+      font-size: 2.2rem;    /* smaller than is-1 */
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .hero .button { margin-top: 0.25rem; }
+
+    /* Teaser area: control width + avoid huge stretched videos */
+    .teaser-wrap {
+      max-width: var(--teaser-max);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .teaser-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .teaser-grid { grid-template-columns: 1fr; }
+    }
+    .teaser-video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      background: #000;
+      aspect-ratio: 16 / 9;        /* keeps consistent shape */
+      object-fit: contain;
+    }
+    .teaser-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+    .teaser-caption {
+      margin-top: 10px;
+      font-weight: 700;
+      text-align: left;
+    }
+    .divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 2rem 0;
+    }
+
+    /* Real world tasks: equal-size caption boxes + consistent video size */
+    .instruction-box {
+      height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #f5f5f5;
+      padding: 0.75rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+      border: 1px solid #e5e7eb;
+    }
+    .task-video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 0.6rem;
+      display: block;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+    }
 
     /* GIF grid */
     .demo-grid {
@@ -32,49 +143,46 @@
     }
     @media (max-width: 1200px) { .demo-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px)  { .demo-grid { grid-template-columns: repeat(2, 1fr); } }
-    .demo-card img { width: 100%; border-radius: 12px; }
-    .demo-cap { text-align: center; margin-top: 6px; font-weight: 600; }
-
-    /* Real robot tasks: equal-size caption boxes + consistent video styling */
-    .instruction-box {
-      height: 90px;                 /* same height for all caption boxes */
-      display: flex;
-      align-items: center;          /* vertical centering */
-      justify-content: center;      /* horizontal centering */
-      text-align: center;
-      background-color: #f5f5f5;
-      padding: 0.75rem;
+    .demo-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 10px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
     }
-    .task-video {
-      width: 100%;
-      border-radius: 8px;
-      margin-top: 0.5rem;
-      display: block;
-    }
+    .demo-card img { width: 100%; border-radius: 12px; display: block; }
+    .demo-cap { text-align: left; margin-top: 8px; font-weight: 700; }
 
-    /* Tables: do NOT stretch full width; center them; allow scroll on small screens */
+    /* Tables: centered, not full width; scroll on small screens */
     .table-wrap {
-      max-width: 1100px;
+      max-width: var(--content-max);
       margin: 0 auto;
       overflow-x: auto;
       padding: 8px 0;
     }
     .results-table {
-      width: auto;              /* key: prevents stretching */
-      margin: 0 auto;           /* centers table */
+      width: auto;
+      margin: 0 auto;
       border-collapse: collapse;
       font-size: 0.92rem;
-      white-space: nowrap;      /* keeps columns tight and readable */
+      white-space: nowrap;
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
     }
     .results-table th, .results-table td {
-      padding: 6px 10px;
+      padding: 8px 12px;
       text-align: center;
-      border: 1px solid #e5e7eb;  /* light border */
+      border: 1px solid #e5e7eb;
     }
     .results-table th {
       background: #f7f7f7;
-      font-weight: 700;
+      font-weight: 800;
     }
+
+    /* Small utility */
+    .muted { color: #6b7280; }
   </style>
 </head>
 
@@ -83,105 +191,50 @@
 <!-- ================= TITLE ================= -->
 <section class="hero">
   <div class="hero-body">
-    <div class="container is-max-desktop has-text-centered">
-
-      <h1 class="title is-1">
+    <div class="content-wrap has-text-centered">
+      <h1 class="title">
         PRISM: A Vision-Language Architecture for Hierarchical Multi-Agent Coordination
       </h1>
 
-      <!-- GitHub button UNDER title -->
-      <div style="margin-top:16px;">
-        <a href="https://github.com/prism-architecture/PRISM"
-           class="button is-dark is-rounded">
+      <div>
+        <a href="https://github.com/prism-architecture/PRISM" class="button is-dark is-rounded">
           <span class="icon"><i class="fab fa-github"></i></span>
           <span>Code</span>
         </a>
       </div>
-
-      <!-- Authors (commented for now) -->
-      <!--
-      <div class="is-size-5">
-        Author names and affiliations
-      </div>
-      -->
-
     </div>
   </div>
 </section>
 
-<!-- ================= TEASER IMAGE ================= -->
-<!--
-<section class="section has-text-centered">
-  <img class="figure" src="./static/images/prism_example.png" style="max-width:60%;">
-</section>
--->
-
-<!-- Teaser video (commented out) -->
-<!--
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
--->
-
-<!-- ================= REAL ROBOT VIDEO TEASERS ================= -->
+<!-- ================= INTRO / TEASER ================= -->
 <section class="section">
-  <!-- <h2 class="title is-3 has-text-centered">Annotated Real-Robot Experiments</h2> -->
+  <div class="teaser-wrap">
+    <div class="teaser-grid">
 
-  <div class="container is-fluid">
-    <div class="columns">
-
-      <div class="column" style="overflow: hidden;">
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          controls
-          style="
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            max-height: 60vh;
-            object-fit: contain;
-          ">
+      <div class="teaser-card">
+        <video autoplay muted loop playsinline controls class="teaser-video">
           <source src="./static/videos/handover_annotated.mp4" type="video/mp4">
         </video>
+        <div class="teaser-caption">Annotated Real-World Experiment: Handover</div>
       </div>
 
-      <div class="column" style="overflow: hidden;">
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          controls
-          style="
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            max-height: 60vh;
-            object-fit: contain;
-          ">
+      <div class="teaser-card">
+        <video autoplay muted loop playsinline controls class="teaser-video">
           <source src="./static/videos/open_drawer_annotated.mp4" type="video/mp4">
         </video>
+        <div class="teaser-caption">Annotated Real-World Experiment: Put in Drawer</div>
       </div>
 
     </div>
+
+    <div class="divider"></div>
   </div>
 </section>
 
 <!-- ================= ABSTRACT ================= -->
 <section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Abstract</h2>
+  <div class="content-wrap">
+    <h2 class="section-title">Abstract</h2>
     <div class="content has-text-justified">
       <p>
         Multi-agent systems hold the promise of distributed, parallel execution in domains ranging from
@@ -203,68 +256,56 @@
   </div>
 </section>
 
+<!-- ================= PRISM ARCHITECTURE ================= -->
+<section class="section">
+  <div class="content-wrap">
+    <h2 class="section-title">PRISM Architecture</h2>
+    <p class="section-note">Overview of the hierarchical planning and synchronization pipeline.</p>
 
-<!-- ================= ARCHITECTURE ================= -->
-<section class="section has-text-centered">
-  <h2 class="title is-3">PRISM Architecture</h2>
-  <img class="figure" src="./static/images/prism_framework.png" style="max-width:50%;">
+    <div class="has-text-centered">
+      <img class="figure" src="./static/images/prism_framework.png" style="max-width: 900px; width: 100%;">
+    </div>
+  </div>
 </section>
 
-  
-
-<!-- ================= REAL ROBOT TASKS ================= -->
+<!-- ================= REAL-WORLD EXPERIMENTS ================= -->
 <section class="section">
-  <h2 class="title is-3 has-text-centered">Real-World Experiments</h2>
+  <div class="content-wrap">
+    <h2 class="section-title">Real-World Experiments</h2>
+    <p class="section-note">Representative real-robot executions for different tasks.</p>
 
-  <div class="container">
-    <div class="columns is-multiline is-centered is-variable is-4">
+    <div class="columns is-multiline is-variable is-4">
 
-      <!-- Stack Blocks -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box instruction-box">
-          <div>
-            <strong>Instruction:</strong><br>
-            Stack two blocks
-          </div>
+        <div class="instruction-box">
+          <div><strong>Instruction:</strong><br>Stack two blocks</div>
         </div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/stack_blocks.mp4" type="video/mp4">
         </video>
       </div>
 
-      <!-- Open Drawer -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box instruction-box">
-          <div>
-            <strong>Instruction:</strong><br>
-            Put the item inside the drawer
-          </div>
+        <div class="instruction-box">
+          <div><strong>Instruction:</strong><br>Put the item inside the drawer</div>
         </div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/open_drawer.mp4" type="video/mp4">
         </video>
       </div>
 
-      <!-- Handover -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box instruction-box">
-          <div>
-            <strong>Instruction:</strong><br>
-            Handover the item to the other robot
-          </div>
+        <div class="instruction-box">
+          <div><strong>Instruction:</strong><br>Handover the item to the other robot</div>
         </div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/handover_item.mp4" type="video/mp4">
         </video>
       </div>
 
-      <!-- Sort Item -->
       <div class="column is-one-quarter has-text-centered">
-        <div class="box instruction-box">
-          <div>
-            <strong>Instruction:</strong><br>
-            Sort the item into the correct location
-          </div>
+        <div class="instruction-box">
+          <div><strong>Instruction:</strong><br>Sort the item into the correct location</div>
         </div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/sort_items.mp4" type="video/mp4">
@@ -275,142 +316,140 @@
   </div>
 </section>
 
-<!-- ================= RLBench-COLLAB ================= -->
-<section class="section has-text-centered">
-  <h2 class="title is-3">Simulation in RLBench</h2>
-  <h2 class="title is-3">RLBench-COLLAB Task Suite</h2>
-  <img class="figure" src="./static/images/rlbench_task_suit.png" style="max-width:60%;">
-</section>
-
-
-
-<!-- ================= SIMULATION DEMOS ================= -->
-<section class="section">
-  <h2 class="title is-3 has-text-centered">Successful Task Execution Examples</h2>
-  <div class="container demo-grid">
-    <div class="demo-card"><img src="./static/images/stack_block.gif"><div class="demo-cap">Stack Blocks</div></div>
-    <div class="demo-card"><img src="./static/images/pyramid_stacking.gif"><div class="demo-cap">Pyramid Stacking</div></div>
-    <div class="demo-card"><img src="./static/images/put_into_drawer.gif"><div class="demo-cap">Put into Drawer</div></div>
-    <div class="demo-card"><img src="./static/images/put_into_saucepan.gif"><div class="demo-cap">Put into Saucepan</div></div>
-    <div class="demo-card"><img src="./static/images/push_buttons.gif"><div class="demo-cap">Push Buttons</div></div>
-    <div class="demo-card"><img src="./static/images/shell_game.gif"><div class="demo-cap">Shell Game</div></div>
-    <div class="demo-card"><img src="./static/images/sort_items.gif"><div class="demo-cap">Sort Items</div></div>
-    <div class="demo-card"><img src="./static/images/handover_item.gif"><div class="demo-cap">Handover Item</div></div>
-    <div class="demo-card"><img src="./static/images/insert_ring.gif"><div class="demo-cap">Insert Ring</div></div>
-    <div class="demo-card"><img src="./static/images/push_box.gif"><div class="demo-cap">Push Box</div></div>
-  </div>
-</section>
-
 <!-- ================= SIMULATION RESULTS ================= -->
 <section class="section">
-  <h2 class="title is-3 has-text-centered">Simulation Results</h2>
-  <p class="has-text-centered"><i>Task Success (TS↑), #Subtasks (↑), Subtask Success (STS↑)</i></p>
+  <div class="content-wrap">
+    <h2 class="section-title">Simulation Results</h2>
+    <p class="section-note"><i>Task Success (TS↑), #Subtasks (↑), Subtask Success (STS↑)</i></p>
 
-  <div class="table-wrap">
+    <!-- Subsection: Task Suite -->
+    <h3 class="subsection-title">Simulation in RLBench</h3>
+    <p class="muted" style="margin-bottom: 0.75rem;">RLBench-COLLAB task suite used for evaluation.</p>
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+      <img class="figure" src="./static/images/rlbench_task_suit.png" style="max-width: 900px; width: 100%;">
+    </div>
 
-    <!-- TABLE 1 -->
-    <table class="results-table">
-      <tr>
-        <th rowspan="2">Model</th>
-        <th colspan="6">Sequential Coordination</th>
-        <th colspan="9">Coupled Interaction</th>
-      </tr>
-      <tr>
-        <th colspan="3">Stack Blocks</th>
-        <th colspan="3">Pyramid Stacking</th>
-        <th colspan="3">Put in Saucepan</th>
-        <th colspan="3">Push Box Target</th>
-        <th colspan="3">Put in Drawer</th>
-      </tr>
-      <tr>
-        <th></th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-      </tr>
-      <tr>
-        <td><b>Centralized Planner (Oracle)</b></td>
-        <td><b>0.80</b></td><td>10.9</td><td><b>1.00</b></td>
-        <td><b>0.60</b></td><td>11.0</td><td><b>0.90</b></td>
-        <td><b>0.80</b></td><td><b>8.0</b></td><td><b>0.93</b></td>
-        <td><b>1.00</b></td><td><b>16.0</b></td><td><b>1.00</b></td>
-        <td><b>1.00</b></td><td><b>10.0</b></td><td><b>1.00</b></td>
-      </tr>
-      <tr>
-        <td>VoxPoser</td>
-        <td>0.00</td><td>10.0</td><td>0.68</td>
-        <td>0.00</td><td><b>11.8</b></td><td>0.36</td>
-        <td>0.50</td><td>7.0</td><td>0.79</td>
-        <td>0.00</td><td>11.2</td><td>0.76</td>
-        <td>0.00</td><td>9.0</td><td>0.55</td>
-      </tr>
-      <tr>
-        <td><b>PRISM (Ours)</b></td>
-        <td><b>0.80</b></td><td><b>11.0</b></td><td>0.94</td>
-        <td><b>0.60</b></td><td>11.0</td><td>0.83</td>
-        <td>0.70</td><td><b>8.0</b></td><td>0.81</td>
-        <td>0.70</td><td>14.0</td><td>0.72</td>
-        <td>0.50</td><td>8.0</td><td>0.82</td>
-      </tr>
-    </table>
+    <!-- Subsection: Successful Examples -->
+    <h3 class="subsection-title">Successful Task Execution Examples</h3>
+    <div class="demo-grid" style="margin-top: 0.75rem; margin-bottom: 1.75rem;">
+      <div class="demo-card"><img src="./static/images/stack_block.gif"><div class="demo-cap">Stack Blocks</div></div>
+      <div class="demo-card"><img src="./static/images/pyramid_stacking.gif"><div class="demo-cap">Pyramid Stacking</div></div>
+      <div class="demo-card"><img src="./static/images/put_into_drawer.gif"><div class="demo-cap">Put into Drawer</div></div>
+      <div class="demo-card"><img src="./static/images/put_into_saucepan.gif"><div class="demo-cap">Put into Saucepan</div></div>
+      <div class="demo-card"><img src="./static/images/push_buttons.gif"><div class="demo-cap">Push Buttons</div></div>
+      <div class="demo-card"><img src="./static/images/shell_game.gif"><div class="demo-cap">Shell Game</div></div>
+      <div class="demo-card"><img src="./static/images/sort_items.gif"><div class="demo-cap">Sort Items</div></div>
+      <div class="demo-card"><img src="./static/images/handover_item.gif"><div class="demo-cap">Handover Item</div></div>
+      <div class="demo-card"><img src="./static/images/insert_ring.gif"><div class="demo-cap">Insert Ring</div></div>
+      <div class="demo-card"><img src="./static/images/push_box.gif"><div class="demo-cap">Push Box</div></div>
+    </div>
 
-    <br>
+    <!-- Subsection: Quantitative Tables -->
+    <h3 class="subsection-title">Quantitative Results</h3>
 
-    <!-- TABLE 2 -->
-    <table class="results-table">
-      <tr>
-        <th rowspan="2">Model</th>
-        <th colspan="6">Parallel Coordination</th>
-        <th colspan="9">Behavior-Aware Reasoning</th>
-      </tr>
-      <tr>
-        <th colspan="3">Sort Items</th>
-        <th colspan="3">Push Buttons</th>
-        <th colspan="3">Insert Rings</th>
-        <th colspan="3">Shell Game</th>
-        <th colspan="3">Handover Item</th>
-      </tr>
-      <tr>
-        <th></th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-        <th>TS</th><th>#ST</th><th>STS</th>
-      </tr>
-      <tr>
-        <td><b>Centralized Planner (Oracle)</b></td>
-        <td><b>0.90</b></td><td>10.0</td><td><b>0.99</b></td>
-        <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
-        <td><b>1.00</b></td><td>8.0</td><td><b>1.00</b></td>
-        <td><b>0.90</b></td><td>9.4</td><td><b>0.98</b></td>
-        <td><b>1.00</b></td><td><b>12.0</b></td><td><b>1.00</b></td>
-      </tr>
-      <tr>
-        <td>VoxPoser</td>
-        <td>0.40</td><td><b>10.2</b></td><td>0.74</td>
-        <td>0.30</td><td>8.0</td><td>0.40</td>
-        <td>0.00</td><td>12.8</td><td>0.13</td>
-        <td>0.00</td><td><b>14.5</b></td><td>0.58</td>
-        <td>0.00</td><td>10.0</td><td>0.46</td>
-      </tr>
-      <tr>
-        <td><b>PRISM (Ours)</b></td>
-        <td><b>0.90</b></td><td>10.0</td><td>0.98</td>
-        <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
-        <td>0.60</td><td><b>15.0</b></td><td>0.95</td>
-        <td>0.70</td><td>13.0</td><td>0.96</td>
-        <td>0.70</td><td><b>12.0</b></td><td>0.91</td>
-      </tr>
-    </table>
+    <div class="table-wrap">
+      <table class="results-table">
+        <tr>
+          <th rowspan="2">Model</th>
+          <th colspan="6">Sequential Coordination</th>
+          <th colspan="9">Coupled Interaction</th>
+        </tr>
+        <tr>
+          <th colspan="3">Stack Blocks</th>
+          <th colspan="3">Pyramid Stacking</th>
+          <th colspan="3">Put in Saucepan</th>
+          <th colspan="3">Push Box Target</th>
+          <th colspan="3">Put in Drawer</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+        </tr>
+        <tr>
+          <td><b>Centralized Planner (Oracle)</b></td>
+          <td><b>0.80</b></td><td>10.9</td><td><b>1.00</b></td>
+          <td><b>0.60</b></td><td>11.0</td><td><b>0.90</b></td>
+          <td><b>0.80</b></td><td><b>8.0</b></td><td><b>0.93</b></td>
+          <td><b>1.00</b></td><td><b>16.0</b></td><td><b>1.00</b></td>
+          <td><b>1.00</b></td><td><b>10.0</b></td><td><b>1.00</b></td>
+        </tr>
+        <tr>
+          <td>VoxPoser</td>
+          <td>0.00</td><td>10.0</td><td>0.68</td>
+          <td>0.00</td><td><b>11.8</b></td><td>0.36</td>
+          <td>0.50</td><td>7.0</td><td>0.79</td>
+          <td>0.00</td><td>11.2</td><td>0.76</td>
+          <td>0.00</td><td>9.0</td><td>0.55</td>
+        </tr>
+        <tr>
+          <td><b>PRISM (Ours)</b></td>
+          <td><b>0.80</b></td><td><b>11.0</b></td><td>0.94</td>
+          <td><b>0.60</b></td><td>11.0</td><td>0.83</td>
+          <td>0.70</td><td><b>8.0</b></td><td>0.81</td>
+          <td>0.70</td><td>14.0</td><td>0.72</td>
+          <td>0.50</td><td>8.0</td><td>0.82</td>
+        </tr>
+      </table>
+
+      <br>
+
+      <table class="results-table">
+        <tr>
+          <th rowspan="2">Model</th>
+          <th colspan="6">Parallel Coordination</th>
+          <th colspan="9">Behavior-Aware Reasoning</th>
+        </tr>
+        <tr>
+          <th colspan="3">Sort Items</th>
+          <th colspan="3">Push Buttons</th>
+          <th colspan="3">Insert Rings</th>
+          <th colspan="3">Shell Game</th>
+          <th colspan="3">Handover Item</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+          <th>TS</th><th>#ST</th><th>STS</th>
+        </tr>
+        <tr>
+          <td><b>Centralized Planner (Oracle)</b></td>
+          <td><b>0.90</b></td><td>10.0</td><td><b>0.99</b></td>
+          <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
+          <td><b>1.00</b></td><td>8.0</td><td><b>1.00</b></td>
+          <td><b>0.90</b></td><td>9.4</td><td><b>0.98</b></td>
+          <td><b>1.00</b></td><td><b>12.0</b></td><td><b>1.00</b></td>
+        </tr>
+        <tr>
+          <td>VoxPoser</td>
+          <td>0.40</td><td><b>10.2</b></td><td>0.74</td>
+          <td>0.30</td><td>8.0</td><td>0.40</td>
+          <td>0.00</td><td>12.8</td><td>0.13</td>
+          <td>0.00</td><td><b>14.5</b></td><td>0.58</td>
+          <td>0.00</td><td>10.0</td><td>0.46</td>
+        </tr>
+        <tr>
+          <td><b>PRISM (Ours)</b></td>
+          <td><b>0.90</b></td><td>10.0</td><td>0.98</td>
+          <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
+          <td>0.60</td><td><b>15.0</b></td><td>0.95</td>
+          <td>0.70</td><td>13.0</td><td>0.96</td>
+          <td>0.70</td><td><b>12.0</b></td><td>0.91</td>
+        </tr>
+      </table>
+    </div>
 
   </div>
 </section>
 
 <footer class="footer">
-  <div class="container">
+  <div class="content-wrap">
     <div class="content has-text-centered">
       <p>
         This website template is adapted from the

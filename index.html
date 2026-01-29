@@ -7,7 +7,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
-  <!-- CSS -->
+  <!-- Nerfies CSS -->
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
@@ -35,7 +35,7 @@
 
     .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
 
-    /* Shared width container */
+    /* Shared width container (Real-world + Simulation slider MUST match this) */
     .content-wrap {
       max-width: var(--content-max);
       margin: 0 auto;
@@ -127,28 +127,14 @@
     }
 
     /* ===================== SIMULATION SLIDER ===================== */
-    /* HARD clamp: prevent bulma-carousel inner track from going wider than content-wrap */
-    #sim-carousel,
-    #sim-carousel .carousel-container,
-    #sim-carousel .carousel-content {
-      max-width: 100% !important;
-      width: 100% !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      box-sizing: border-box;
-    }
-    #sim-carousel .carousel-container {
-      overflow: hidden !important;
-    }
-
-    /* 2x3 per slide */
+    /* 2x3 per slide + explicit horizontal/vertical gaps */
     .sim-slide {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 24px;   /* horizontal gap between images */
+      row-gap: 28px;      /* vertical gap between rows */
       padding: 12px 0;
+      box-sizing: border-box;
     }
     .sim-slide img {
       width: 100%;
@@ -161,6 +147,50 @@
       font-weight: 400;
       text-align: center;
       color: #111827;
+    }
+
+    /* ===================== HARD FIX: STOP CAROUSEL FROM SPANNING THE PAGE ===================== */
+    /* Force the whole carousel (and its internals) to obey content-wrap width */
+    .content-wrap #sim-carousel,
+    .content-wrap #sim-carousel.carousel {
+      width: 100% !important;         /* 100% of content-wrap, not viewport */
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box;
+      position: relative;             /* keep nav inside */
+    }
+
+    .content-wrap #sim-carousel .carousel-container,
+    .content-wrap #sim-carousel .carousel-content,
+    .content-wrap #sim-carousel .carousel-items,
+    .content-wrap #sim-carousel .carousel-item {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box;
+    }
+
+    .content-wrap #sim-carousel .carousel-container {
+      overflow: hidden !important;    /* prevent track overflow */
+    }
+
+    /* Keep arrows inside the same box width (not page-wide) */
+    .content-wrap #sim-carousel .carousel-navigation {
+      position: absolute !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      width: 100% !important;
+      margin: 0 !important;
+      pointer-events: none;           /* only buttons clickable */
+      z-index: 5;
+    }
+    .content-wrap #sim-carousel .carousel-nav-left,
+    .content-wrap #sim-carousel .carousel-nav-right {
+      pointer-events: auto;
     }
 
     /* ===================== TABLES ===================== */
@@ -186,6 +216,7 @@
       background: #f7f7f7;
       font-weight: 700;
     }
+
     .muted { color: #6b7280; }
   </style>
 </head>
@@ -250,7 +281,7 @@
   </div>
 </section>
 
-<!-- ================= PRISM ARCHITECTURE (RESTORED) ================= -->
+<!-- ================= PRISM ARCHITECTURE ================= -->
 <section class="section">
   <div class="content-wrap">
     <h2 class="section-title">PRISM Architecture</h2>
@@ -306,7 +337,6 @@
   <div class="content-wrap">
     <h2 class="section-title">Simulation Results</h2>
 
-    <!-- RLBench-COLLAB task suite (RESTORED) -->
     <h3 class="subsection-title">Simulation in RLBench</h3>
     <p class="muted" style="margin-bottom: 0.75rem;">RLBench-COLLAB task suite used for evaluation.</p>
     <div class="has-text-centered" style="margin-bottom: 1.25rem;">
@@ -314,11 +344,11 @@
            style="max-width: 900px; width: 100%; border-radius: var(--radius-rect);">
     </div>
 
-    <!-- Slider -->
     <h3 class="subsection-title">Successful Task Execution Examples</h3>
 
+    <!-- Slider: same width as Real-World (both inside content-wrap) -->
     <div id="sim-carousel" class="carousel">
-      <!-- Slide 1 -->
+      <!-- Slide 1 (2x3) -->
       <div class="item">
         <div class="sim-slide">
           <div><img src="./static/images/stack_block.gif" alt="Stack Blocks"><div class="sim-cap">Stack Blocks</div></div>

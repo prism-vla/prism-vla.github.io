@@ -22,33 +22,37 @@
 
   <style>
     :root{
-      --content-max: 1100px;         /* global content width */
-      --teaser-max: 980px;           /* teaser width control */
-      --section-gap-y: 2.25rem;
+      --content-max: 1100px;
+
+      /* Teaser width control (wider) */
+      --teaser-max: 1200px;
+      --teaser-gap: 18px;
+
+      /* Corners */
+      --radius-video-oval: 12px;   /* real task videos can be oval */
+      --radius-rect: 4px;          /* teaser + simulation should NOT be oval */
     }
 
-    body { font-family: "Noto Sans", sans-serif; }
-    .figure { border-radius: 12px; }
-    .section { padding-top: var(--section-gap-y); padding-bottom: var(--section-gap-y); }
+    .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
 
-    /* Centered content wrapper (consistent page rhythm) */
+    /* Consistent centered content width */
     .content-wrap {
       max-width: var(--content-max);
       margin: 0 auto;
       padding: 0 1rem;
     }
 
-    /* Headings: left-aligned sections + smaller subsections */
+    /* Headings: left-align sections + smaller subsections */
     .section-title {
       text-align: left;
-      font-size: 1.75rem;   /* section */
+      font-size: 1.75rem;
       font-weight: 800;
       margin-bottom: 0.75rem;
       letter-spacing: -0.02em;
     }
     .subsection-title {
       text-align: left;
-      font-size: 1.25rem;   /* subsection */
+      font-size: 1.25rem;
       font-weight: 800;
       margin: 1.25rem 0 0.5rem;
       letter-spacing: -0.01em;
@@ -61,17 +65,16 @@
       font-size: 0.95rem;
     }
 
-    /* Hero / title: make it tighter + smaller */
+    /* Hero/title: slightly smaller, not huge */
     .hero { padding: 1.5rem 0; }
     .hero .title {
-      font-size: 2.2rem;    /* smaller than is-1 */
+      font-size: 2.2rem;
       line-height: 1.15;
       letter-spacing: -0.03em;
       margin-bottom: 0.75rem;
     }
-    .hero .button { margin-top: 0.25rem; }
 
-    /* Teaser area: control width + avoid huge stretched videos */
+    /* ===================== TEASER (Annotated videos) ===================== */
     .teaser-wrap {
       max-width: var(--teaser-max);
       margin: 0 auto;
@@ -80,78 +83,60 @@
     .teaser-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: var(--teaser-gap);
       align-items: start;
     }
     @media (max-width: 900px) {
       .teaser-grid { grid-template-columns: 1fr; }
     }
+
+    /* Teaser videos: NOT oval + control height */
     .teaser-video {
       width: 100%;
       display: block;
-      border-radius: 12px;
       background: #000;
-      aspect-ratio: 16 / 9;        /* keeps consistent shape */
+      border-radius: var(--radius-rect);
+      aspect-ratio: 16 / 9;
       object-fit: contain;
-    }
-    .teaser-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-    }
-    .teaser-caption {
-      margin-top: 10px;
-      font-weight: 700;
-      text-align: left;
-    }
-    .divider {
-      height: 1px;
-      background: #e5e7eb;
-      margin: 2rem 0;
+      max-height: 52vh;
     }
 
-    /* Real world tasks: equal-size caption boxes + consistent video size */
+    /* ===================== REAL-WORLD TASKS ===================== */
+
+    /* Caption box: rectangular and not full width */
     .instruction-box {
-      height: 86px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      width: 92%;
+      margin: 0 auto;
       background-color: #f5f5f5;
-      padding: 0.75rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+      padding: 0.75rem 0.85rem;
+      border-radius: var(--radius-rect);
       border: 1px solid #e5e7eb;
+      text-align: center;
+      font-weight: 600;
     }
+
+    /* Real task videos: can be oval */
     .task-video {
       width: 100%;
-      border-radius: 12px;
       margin-top: 0.6rem;
       display: block;
       background: #000;
+      border-radius: var(--radius-video-oval);
       aspect-ratio: 16 / 9;
       object-fit: contain;
     }
 
-    /* GIF grid */
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
+    /* ===================== SIMULATION (Slider) ===================== */
+    .carousel .item img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius-rect); /* NOT oval */
     }
-    @media (max-width: 1200px) { .demo-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 768px)  { .demo-grid { grid-template-columns: repeat(2, 1fr); } }
-    .demo-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 10px;
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    .sim-cap {
+      margin-top: 8px;
+      font-weight: 700;
+      text-align: left;
     }
-    .demo-card img { width: 100%; border-radius: 12px; display: block; }
-    .demo-cap { text-align: left; margin-top: 8px; font-weight: 700; }
 
     /* Tables: centered, not full width; scroll on small screens */
     .table-wrap {
@@ -166,22 +151,17 @@
       border-collapse: collapse;
       font-size: 0.92rem;
       white-space: nowrap;
-      background: #fff;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
     }
     .results-table th, .results-table td {
-      padding: 8px 12px;
+      padding: 6px 10px;
       text-align: center;
       border: 1px solid #e5e7eb;
     }
     .results-table th {
       background: #f7f7f7;
-      font-weight: 800;
+      font-weight: 700;
     }
 
-    /* Small utility */
     .muted { color: #6b7280; }
   </style>
 </head>
@@ -196,38 +176,35 @@
         PRISM: A Vision-Language Architecture for Hierarchical Multi-Agent Coordination
       </h1>
 
-      <div>
+      <div style="margin-top: 10px;">
         <a href="https://github.com/prism-architecture/PRISM" class="button is-dark is-rounded">
           <span class="icon"><i class="fab fa-github"></i></span>
           <span>Code</span>
         </a>
       </div>
+
+      <!-- Authors (commented for now) -->
+      <!--
+      <div class="is-size-5">
+        Author names and affiliations
+      </div>
+      -->
     </div>
   </div>
 </section>
 
-<!-- ================= INTRO / TEASER ================= -->
+<!-- ================= INTRO / TEASER (wider, no captions, not oval) ================= -->
 <section class="section">
   <div class="teaser-wrap">
     <div class="teaser-grid">
+      <video autoplay muted loop playsinline controls class="teaser-video">
+        <source src="./static/videos/handover_annotated.mp4" type="video/mp4">
+      </video>
 
-      <div class="teaser-card">
-        <video autoplay muted loop playsinline controls class="teaser-video">
-          <source src="./static/videos/handover_annotated.mp4" type="video/mp4">
-        </video>
-        <div class="teaser-caption">Annotated Real-World Experiment: Handover</div>
-      </div>
-
-      <div class="teaser-card">
-        <video autoplay muted loop playsinline controls class="teaser-video">
-          <source src="./static/videos/open_drawer_annotated.mp4" type="video/mp4">
-        </video>
-        <div class="teaser-caption">Annotated Real-World Experiment: Put in Drawer</div>
-      </div>
-
+      <video autoplay muted loop playsinline controls class="teaser-video">
+        <source src="./static/videos/open_drawer_annotated.mp4" type="video/mp4">
+      </video>
     </div>
-
-    <div class="divider"></div>
   </div>
 </section>
 
@@ -263,7 +240,8 @@
     <p class="section-note">Overview of the hierarchical planning and synchronization pipeline.</p>
 
     <div class="has-text-centered">
-      <img class="figure" src="./static/images/prism_framework.png" style="max-width: 900px; width: 100%;">
+      <img src="./static/images/prism_framework.png"
+           style="max-width: 900px; width: 100%; border-radius: var(--radius-rect);">
     </div>
   </div>
 </section>
@@ -274,39 +252,31 @@
     <h2 class="section-title">Real-World Experiments</h2>
     <p class="section-note">Representative real-robot executions for different tasks.</p>
 
-    <div class="columns is-multiline is-variable is-4">
+    <div class="columns is-multiline is-centered is-variable is-4">
 
       <div class="column is-one-quarter has-text-centered">
-        <div class="instruction-box">
-          <div><strong>Instruction:</strong><br>Stack two blocks</div>
-        </div>
+        <div class="instruction-box"><strong>Instruction:</strong> Stack two blocks</div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/stack_blocks.mp4" type="video/mp4">
         </video>
       </div>
 
       <div class="column is-one-quarter has-text-centered">
-        <div class="instruction-box">
-          <div><strong>Instruction:</strong><br>Put the item inside the drawer</div>
-        </div>
+        <div class="instruction-box"><strong>Instruction:</strong> Put the item inside the drawer</div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/open_drawer.mp4" type="video/mp4">
         </video>
       </div>
 
       <div class="column is-one-quarter has-text-centered">
-        <div class="instruction-box">
-          <div><strong>Instruction:</strong><br>Handover the item to the other robot</div>
-        </div>
+        <div class="instruction-box"><strong>Instruction:</strong> Handover the item to the other robot</div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/handover_item.mp4" type="video/mp4">
         </video>
       </div>
 
       <div class="column is-one-quarter has-text-centered">
-        <div class="instruction-box">
-          <div><strong>Instruction:</strong><br>Sort the item into the correct location</div>
-        </div>
+        <div class="instruction-box"><strong>Instruction:</strong> Sort the item into the correct location</div>
         <video autoplay muted loop playsinline controls class="task-video">
           <source src="./static/videos/sort_items.mp4" type="video/mp4">
         </video>
@@ -322,32 +292,63 @@
     <h2 class="section-title">Simulation Results</h2>
     <p class="section-note"><i>Task Success (TS↑), #Subtasks (↑), Subtask Success (STS↑)</i></p>
 
-    <!-- Subsection: Task Suite -->
     <h3 class="subsection-title">Simulation in RLBench</h3>
     <p class="muted" style="margin-bottom: 0.75rem;">RLBench-COLLAB task suite used for evaluation.</p>
-    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
-      <img class="figure" src="./static/images/rlbench_task_suit.png" style="max-width: 900px; width: 100%;">
+    <div class="has-text-centered" style="margin-bottom: 1.25rem;">
+      <img src="./static/images/rlbench_task_suit.png"
+           style="max-width: 900px; width: 100%; border-radius: var(--radius-rect);">
     </div>
 
-    <!-- Subsection: Successful Examples -->
     <h3 class="subsection-title">Successful Task Execution Examples</h3>
-    <div class="demo-grid" style="margin-top: 0.75rem; margin-bottom: 1.75rem;">
-      <div class="demo-card"><img src="./static/images/stack_block.gif"><div class="demo-cap">Stack Blocks</div></div>
-      <div class="demo-card"><img src="./static/images/pyramid_stacking.gif"><div class="demo-cap">Pyramid Stacking</div></div>
-      <div class="demo-card"><img src="./static/images/put_into_drawer.gif"><div class="demo-cap">Put into Drawer</div></div>
-      <div class="demo-card"><img src="./static/images/put_into_saucepan.gif"><div class="demo-cap">Put into Saucepan</div></div>
-      <div class="demo-card"><img src="./static/images/push_buttons.gif"><div class="demo-cap">Push Buttons</div></div>
-      <div class="demo-card"><img src="./static/images/shell_game.gif"><div class="demo-cap">Shell Game</div></div>
-      <div class="demo-card"><img src="./static/images/sort_items.gif"><div class="demo-cap">Sort Items</div></div>
-      <div class="demo-card"><img src="./static/images/handover_item.gif"><div class="demo-cap">Handover Item</div></div>
-      <div class="demo-card"><img src="./static/images/insert_ring.gif"><div class="demo-cap">Insert Ring</div></div>
-      <div class="demo-card"><img src="./static/images/push_box.gif"><div class="demo-cap">Push Box</div></div>
+
+    <!-- Slider / Carousel (like before) -->
+    <div id="sim-carousel" class="carousel" data-autoplay="true" data-loop="true" data-delay="3500">
+      <div class="item">
+        <img src="./static/images/stack_block.gif" alt="Stack Blocks">
+        <div class="sim-cap">Stack Blocks</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/pyramid_stacking.gif" alt="Pyramid Stacking">
+        <div class="sim-cap">Pyramid Stacking</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/put_into_drawer.gif" alt="Put into Drawer">
+        <div class="sim-cap">Put into Drawer</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/put_into_saucepan.gif" alt="Put into Saucepan">
+        <div class="sim-cap">Put into Saucepan</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/push_buttons.gif" alt="Push Buttons">
+        <div class="sim-cap">Push Buttons</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/shell_game.gif" alt="Shell Game">
+        <div class="sim-cap">Shell Game</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/sort_items.gif" alt="Sort Items">
+        <div class="sim-cap">Sort Items</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/handover_item.gif" alt="Handover Item">
+        <div class="sim-cap">Handover Item</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/insert_ring.gif" alt="Insert Ring">
+        <div class="sim-cap">Insert Ring</div>
+      </div>
+      <div class="item">
+        <img src="./static/images/push_box.gif" alt="Push Box">
+        <div class="sim-cap">Push Box</div>
+      </div>
     </div>
 
-    <!-- Subsection: Quantitative Tables -->
     <h3 class="subsection-title">Quantitative Results</h3>
 
     <div class="table-wrap">
+      <!-- TABLE 1 -->
       <table class="results-table">
         <tr>
           <th rowspan="2">Model</th>
@@ -397,6 +398,7 @@
 
       <br>
 
+      <!-- TABLE 2 -->
       <table class="results-table">
         <tr>
           <th rowspan="2">Model</th>
@@ -444,7 +446,6 @@
         </tr>
       </table>
     </div>
-
   </div>
 </section>
 
@@ -458,6 +459,28 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // If your index.js already initializes carousels, this is safe.
+  // Otherwise, this ensures the simulation carousel works.
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.bulmaCarousel && bulmaCarousel.attach) {
+      bulmaCarousel.attach('#sim-carousel', {
+        slidesToScroll: 1,
+        slidesToShow: 3,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 3500,
+        pauseOnHover: true,
+        breakpoints: [
+          { changePoint: 480, slidesToShow: 1, slidesToScroll: 1 },
+          { changePoint: 768, slidesToShow: 2, slidesToScroll: 1 },
+          { changePoint: 1024, slidesToShow: 3, slidesToScroll: 1 },
+        ],
+      });
+    }
+  });
+</script>
 
 </body>
 </html>

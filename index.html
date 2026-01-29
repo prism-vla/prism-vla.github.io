@@ -131,21 +131,20 @@
       object-fit: contain;
     }
 
-    
-    /* ===== Simulation slider: 2x5 grid per slide ===== */
+    /* ===== Simulation slider: 2x3 grid per slide (bigger gifs) ===== */
     .sim-slide {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 22px 20px;        /* larger, cleaner spacing */
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px 22px;
       padding: 12px 8px;
     }
-    
+
     .sim-slide img {
       width: 100%;
       display: block;
       border-radius: var(--radius-rect);
     }
-    
+
     .sim-cap {
       margin-top: 10px;
       font-size: 0.95rem;
@@ -153,14 +152,9 @@
       text-align: center;
       color: #111827;
     }
-    
+
     /* Keep carousel controls subtle */
-    .carousel-navigation {
-      opacity: 0.7;
-    }
-
-
-    
+    .carousel-navigation { opacity: 0.7; }
 
     /* Tables: centered, not full width; scroll on small screens */
     .table-wrap {
@@ -313,33 +307,38 @@
            style="max-width: 900px; width: 100%; border-radius: var(--radius-rect);">
     </div>
 
-   <h3 class="subsection-title">Successful Task Execution Examples</h3>
+    <h3 class="subsection-title">Successful Task Execution Examples</h3>
 
-  <div id="sim-carousel" class="carousel">
-  
-    <!-- Slide 1 -->
-    <div class="item">
-      <div class="sim-slide">
-        <div><img src="./static/images/stack_block.gif"><div class="sim-cap">Stack Blocks</div></div>
-        <div><img src="./static/images/pyramid_stacking.gif"><div class="sim-cap">Pyramid Stacking</div></div>
-        <div><img src="./static/images/put_into_drawer.gif"><div class="sim-cap">Put into Drawer</div></div>
-        <div><img src="./static/images/put_into_saucepan.gif"><div class="sim-cap">Put into Saucepan</div></div>
-        <div><img src="./static/images/push_buttons.gif"><div class="sim-cap">Push Buttons</div></div>
-  
-        <div><img src="./static/images/shell_game.gif"><div class="sim-cap">Shell Game</div></div>
-        <div><img src="./static/images/sort_items.gif"><div class="sim-cap">Sort Items</div></div>
-        <div><img src="./static/images/handover_item.gif"><div class="sim-cap">Handover Item</div></div>
-        <div><img src="./static/images/insert_ring.gif"><div class="sim-cap">Insert Ring</div></div>
-        <div><img src="./static/images/push_box.gif"><div class="sim-cap">Push Box</div></div>
+    <!-- ✅ Now multiple slides (so slider is visible) -->
+    <div id="sim-carousel" class="carousel">
+
+      <!-- Slide 1 (6 items) -->
+      <div class="item">
+        <div class="sim-slide">
+          <div><img src="./static/images/stack_block.gif" alt="Stack Blocks"><div class="sim-cap">Stack Blocks</div></div>
+          <div><img src="./static/images/pyramid_stacking.gif" alt="Pyramid Stacking"><div class="sim-cap">Pyramid Stacking</div></div>
+          <div><img src="./static/images/put_into_drawer.gif" alt="Put into Drawer"><div class="sim-cap">Put into Drawer</div></div>
+          <div><img src="./static/images/put_into_saucepan.gif" alt="Put into Saucepan"><div class="sim-cap">Put into Saucepan</div></div>
+          <div><img src="./static/images/push_buttons.gif" alt="Push Buttons"><div class="sim-cap">Push Buttons</div></div>
+          <div><img src="./static/images/shell_game.gif" alt="Shell Game"><div class="sim-cap">Shell Game</div></div>
+        </div>
       </div>
-    </div>
-  
-  </div>
 
+      <!-- Slide 2 (4 items + 2 empty to keep layout) -->
+      <div class="item">
+        <div class="sim-slide">
+          <div><img src="./static/images/sort_items.gif" alt="Sort Items"><div class="sim-cap">Sort Items</div></div>
+          <div><img src="./static/images/handover_item.gif" alt="Handover Item"><div class="sim-cap">Handover Item</div></div>
+          <div><img src="./static/images/insert_ring.gif" alt="Insert Ring"><div class="sim-cap">Insert Ring</div></div>
+          <div><img src="./static/images/push_box.gif" alt="Push Box"><div class="sim-cap">Push Box</div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+
+    </div>
 
     <h3 class="subsection-title">Quantitative Results</h3>
-
-    <!-- ✅ moved here: directly before tables -->
     <p class="section-note"><i>Task Success (TS↑), #Subtasks (↑), Subtask Success (STS↑)</i></p>
 
     <div class="table-wrap">
@@ -455,19 +454,20 @@
   </div>
 </footer>
 
-  <script>
+<script>
   document.addEventListener('DOMContentLoaded', () => {
-    bulmaCarousel.attach('#sim-carousel', {
-      slidesToScroll: 1,
-      slidesToShow: 1,
-      infinite: false,
-      autoplay: false,
-      navigation: true,
-      pagination: false,
-    });
+    if (window.bulmaCarousel && bulmaCarousel.attach) {
+      bulmaCarousel.attach('#sim-carousel', {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        infinite: false,
+        autoplay: false,
+        navigation: true,
+        pagination: false
+      });
+    }
   });
 </script>
-
 
 </body>
 </html>

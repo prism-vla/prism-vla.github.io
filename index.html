@@ -132,19 +132,55 @@
       padding: 8px 0;
     }
     .results-table {
-      width: auto;
+      width: 100%;
       margin: 0 auto;
       border-collapse: collapse;
-      font-size: 0.92rem;
+      font-size: 0.78rem;
+      line-height: 1.25;
       white-space: nowrap;
     }
     .results-table th, .results-table td {
-      padding: 6px 10px;
+      padding: 5px 6px;
       text-align: center;
-      border: 1px solid #e5e7eb;
+      border: none;
     }
     .results-table th {
-      background: #f7f7f7;
+      font-weight: 700;
+    }
+    .results-table th:first-child,
+    .results-table td:first-child {
+      text-align: left;
+      padding-right: 14px;
+    }
+    .results-table .top-rule > th,
+    .results-table .second-top-rule > th {
+      border-top: 2px solid #222;
+    }
+    .results-table .category-heading {
+      border-bottom: 1px solid #555;
+    }
+    .results-table .task-heading {
+      border-bottom: 1px solid #777;
+    }
+    .results-table .column-heading > th {
+      border-bottom: 1.5px solid #222;
+    }
+    .results-table .oracle-row > td {
+      padding-bottom: 7px;
+      border-bottom: 1px dashed #777;
+    }
+    .results-table .oracle-row + tr > td {
+      padding-top: 7px;
+    }
+    .results-table .section-gap td {
+      height: 12px;
+      padding: 0;
+      border: none;
+    }
+    .results-table .bottom-rule > td {
+      border-bottom: 2px solid #222;
+    }
+    .results-table .prism-row td:first-child {
       font-weight: 700;
     }
     .muted { color: #6b7280; }
@@ -382,112 +418,136 @@
     </div>
 
     <h3 class="subsection-title">Quantitative Results</h3>
-    <p class="section-note"><i>Task Success (TS↑), #Subtasks (↑), Subtask Success (STS↑)</i></p>
+    <p class="section-note"><i>Task Success (TS&uarr;) and Subtask Success (STS&uarr;), with the average number of generated subtasks (#ST) shown in parentheses.</i></p>
 
     <div class="table-wrap">
-
-      <!-- TABLE 1 -->
       <table class="results-table">
-        <tr>
-          <th rowspan="2">Model</th>
-          <th colspan="6">Sequential Coordination</th>
-          <th colspan="9">Coupled Interaction</th>
+        <!-- ==================== First half ==================== -->
+        <tr class="top-rule">
+          <th rowspan="3">Model</th>
+          <th colspan="4" class="category-heading">Sequential Coordination</th>
+          <th colspan="6" class="category-heading">Coupled Interaction</th>
         </tr>
         <tr>
-          <th colspan="3">Stacking blocks</th>
-          <th colspan="3">Stacking a pyramid</th>
-          <th colspan="3">Putting on the saucepan</th>
-          <th colspan="3">Pushing the box to a target</th>
-          <th colspan="3">Putting in the drawer</th>
+          <th colspan="2" class="task-heading">Stacking blocks</th>
+          <th colspan="2" class="task-heading">Stacking a pyramid</th>
+          <th colspan="2" class="task-heading">Putting on the Saucepan</th>
+          <th colspan="2" class="task-heading">Pushing the box to a target</th>
+          <th colspan="2" class="task-heading">Putting in the drawer</th>
+        </tr>
+        <tr class="column-heading">
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+        </tr>
+        <tr class="oracle-row">
+          <td>Centralized planner (oracle)</td>
+          <td>0.80</td><td>1.00 (10.90)</td>
+          <td>0.60</td><td>0.90 (11.00)</td>
+          <td>0.80</td><td>0.93 (8.00)</td>
+          <td>1.00</td><td>1.00 (16.00)</td>
+          <td>1.00</td><td>1.00 (10.00)</td>
         </tr>
         <tr>
-          <th></th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
+          <td>VLM-NoSync</td>
+          <td>0.00</td><td>0.68 (10.00)</td>
+          <td>0.00</td><td>0.36 (11.80)</td>
+          <td>0.50</td><td>0.79 (7.00)</td>
+          <td>0.00</td><td>0.76 (11.20)</td>
+          <td>0.00</td><td>0.55 (9.00)</td>
         </tr>
         <tr>
-          <td><b>Centralized Planner (Oracle)</b></td>
-          <td><b>0.80</b></td><td>10.9</td><td><b>1.00</b></td>
-          <td><b>0.60</b></td><td>11.0</td><td><b>0.90</b></td>
-          <td><b>0.80</b></td><td><b>8.0</b></td><td><b>0.93</b></td>
-          <td><b>1.00</b></td><td><b>16.0</b></td><td><b>1.00</b></td>
-          <td><b>1.00</b></td><td><b>10.0</b></td><td><b>1.00</b></td>
+          <td>PRISM-DirectPlan</td>
+          <td>0.60</td><td>0.83 (11.00)</td>
+          <td>0.20</td><td>0.86 (11.00)</td>
+          <td>0.00</td><td>0.70 (8.00)</td>
+          <td>0.30</td><td>0.88 (12.00)</td>
+          <td>0.10</td><td>0.24 (10.00)</td>
         </tr>
         <tr>
-          <td>VoxPoser</td>
-          <td>0.00</td><td>10.0</td><td>0.68</td>
-          <td>0.00</td><td><b>11.8</b></td><td>0.36</td>
-          <td>0.50</td><td>7.0</td><td>0.79</td>
-          <td>0.00</td><td>11.2</td><td>0.76</td>
-          <td>0.00</td><td>9.0</td><td>0.55</td>
+          <td>PRISM-Stateless</td>
+          <td>0.70</td><td>0.88 (11.00)</td>
+          <td>0.20</td><td>0.54 (11.80)</td>
+          <td>0.50</td><td>0.70 (8.00)</td>
+          <td>0.20</td><td>0.77 (14.00)</td>
+          <td>0.30</td><td>0.69 (10.00)</td>
+        </tr>
+        <tr class="prism-row">
+          <td>PRISM (ours)</td>
+          <td><strong>0.80</strong></td><td><strong>0.94</strong> (11.00)</td>
+          <td><strong>0.60</strong></td><td><strong>0.83</strong> (11.00)</td>
+          <td><strong>0.70</strong></td><td><strong>0.81</strong> (8.00)</td>
+          <td><strong>0.70</strong></td><td><strong>0.72</strong> (14.00)</td>
+          <td><strong>0.90</strong></td><td><strong>0.96</strong> (10.00)</td>
+        </tr>
+
+        <!-- ==================== Second half ==================== -->
+        <tr class="section-gap"><td colspan="11"></td></tr>
+        <tr class="second-top-rule">
+          <th rowspan="3">Model</th>
+          <th colspan="4" class="category-heading">Parallel Coordination</th>
+          <th colspan="6" class="category-heading">Behavior-Aware Reasoning</th>
         </tr>
         <tr>
-          <td><b>PRISM (Ours)</b></td>
-          <td><b>0.80</b></td><td><b>11.0</b></td><td>0.94</td>
-          <td><b>0.60</b></td><td>11.0</td><td>0.83</td>
-          <td>0.70</td><td><b>8.0</b></td><td>0.81</td>
-          <td>0.70</td><td>14.0</td><td>0.72</td>
-          <td>0.50</td><td>8.0</td><td>0.82</td>
+          <th colspan="2" class="task-heading">Sorting items</th>
+          <th colspan="2" class="task-heading">Pushing buttons</th>
+          <th colspan="2" class="task-heading">Inserting rings</th>
+          <th colspan="2" class="task-heading">The shell game</th>
+          <th colspan="2" class="task-heading">Handing over an item</th>
+        </tr>
+        <tr class="column-heading">
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+          <th>TS &uarr;</th><th>STS &uarr; (#ST)</th>
+        </tr>
+        <tr class="oracle-row">
+          <td>Centralized planner (oracle)</td>
+          <td>0.90</td><td>0.99 (10.00)</td>
+          <td>1.00</td><td>1.00 (8.00)</td>
+          <td>1.00</td><td>1.00 (8.00)</td>
+          <td>0.90</td><td>0.98 (9.40)</td>
+          <td>1.00</td><td>1.00 (12.00)</td>
+        </tr>
+        <tr>
+          <td>VLM-NoSync</td>
+          <td>0.40</td><td>0.74 (10.20)</td>
+          <td>0.30</td><td>0.40 (8.00)</td>
+          <td>0.00</td><td>0.13 (12.80)</td>
+          <td>0.00</td><td>0.58 (14.50)</td>
+          <td>0.00</td><td>0.46 (10.00)</td>
+        </tr>
+        <tr>
+          <td>PRISM-DirectPlan</td>
+          <td>0.40</td><td>0.90 (10.00)</td>
+          <td>0.90</td><td>0.90 (8.00)</td>
+          <td>0.30</td><td>0.69 (15.00)</td>
+          <td>0.40</td><td>0.70 (12.00)</td>
+          <td>0.40</td><td>0.75 (12.00)</td>
+        </tr>
+        <tr>
+          <td>PRISM-Stateless</td>
+          <td>0.90</td><td>0.96 (10.00)</td>
+          <td>1.00</td><td>1.00 (8.00)</td>
+          <td>0.00</td><td>0.72 (15.00)</td>
+          <td>0.20</td><td>0.62 (13.00)</td>
+          <td>0.20</td><td>0.67 (12.00)</td>
+        </tr>
+        <tr class="prism-row bottom-rule">
+          <td>PRISM (ours)</td>
+          <td><strong>0.90</strong></td><td><strong>0.98</strong> (10.00)</td>
+          <td><strong>1.00</strong></td><td><strong>1.00</strong> (8.00)</td>
+          <td><strong>0.60</strong></td><td><strong>0.95</strong> (15.00)</td>
+          <td><strong>0.70</strong></td><td><strong>0.96</strong> (13.00)</td>
+          <td><strong>0.70</strong></td><td><strong>0.91</strong> (12.00)</td>
         </tr>
       </table>
-
-      <br>
-
-      <!-- TABLE 2 -->
-      <table class="results-table">
-        <tr>
-          <th rowspan="2">Model</th>
-          <th colspan="6">Parallel Coordination</th>
-          <th colspan="9">Behavior-Aware Reasoning</th>
-        </tr>
-        <tr>
-          <th colspan="3">Sorting items</th>
-          <th colspan="3">Pushing buttons</th>
-          <th colspan="3">Inserting rings</th>
-          <th colspan="3">The shell game</th>
-          <th colspan="3">Handing over an item</th>
-        </tr>
-        <tr>
-          <th></th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-          <th>TS</th><th>#ST</th><th>STS</th>
-        </tr>
-        <tr>
-          <td><b>Centralized Planner (Oracle)</b></td>
-          <td><b>0.90</b></td><td>10.0</td><td><b>0.99</b></td>
-          <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
-          <td><b>1.00</b></td><td>8.0</td><td><b>1.00</b></td>
-          <td><b>0.90</b></td><td>9.4</td><td><b>0.98</b></td>
-          <td><b>1.00</b></td><td><b>12.0</b></td><td><b>1.00</b></td>
-        </tr>
-        <tr>
-          <td>VoxPoser</td>
-          <td>0.40</td><td><b>10.2</b></td><td>0.74</td>
-          <td>0.30</td><td>8.0</td><td>0.40</td>
-          <td>0.00</td><td>12.8</td><td>0.13</td>
-          <td>0.00</td><td><b>14.5</b></td><td>0.58</td>
-          <td>0.00</td><td>10.0</td><td>0.46</td>
-        </tr>
-        <tr>
-          <td><b>PRISM (Ours)</b></td>
-          <td><b>0.90</b></td><td>10.0</td><td>0.98</td>
-          <td><b>1.00</b></td><td><b>8.0</b></td><td><b>1.00</b></td>
-          <td>0.60</td><td><b>15.0</b></td><td>0.95</td>
-          <td>0.70</td><td>13.0</td><td>0.96</td>
-          <td>0.70</td><td><b>12.0</b></td><td>0.91</td>
-        </tr>
-      </table>
-
     </div>
   </div>
 </section>
-
 
 <footer class="footer">
   <div class="content-wrap">

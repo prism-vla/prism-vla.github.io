@@ -286,20 +286,7 @@
     <h2 class="section-title">Abstract</h2>
     <div class="content has-text-justified">
       <p>
-        Multi-agent systems hold the promise of distributed, parallel execution in domains ranging from
-        manufacturing to assistive care. However, enabling multiple agents to follow natural language
-        instructions in dynamic environments remains a challenging problem due to the lack of mechanisms
-        for grounding language into temporally synchronized, vision-aware action plans. To overcome these
-        limitations and enable robust coordination among multiple agents, we present a hierarchical
-        vision-language framework that grounds natural language instructions into synchronized multi-agent
-        workflows by dynamically injecting synchronization constraints via predicate reasoning over
-        multimodal observations and execution history. Additionally, to enable systematic evaluation of
-        multi-agent coordination, we introduce CoRL-Bench, an extended benchmark comprising ten two-robot
-        manipulation tasks spanning sequential coordination, parallel coordination, coupled interaction,
-        and behavior-aware reasoning. Our extensive experiments suggest that the proposed method
-        significantly outperforms state-of-the-art planning frameworks, achieving an average task success
-        rate of 72% and an average subtask success rate of 89%. Our comprehensive evaluation demonstrates
-        that PRISM bridges the gap between adaptability and temporal coordination in multi-agent systems.
+          Multi-robot systems hold significant promise for coordinated and parallel task execution across domains ranging from manufacturing and logistics to search and rescue. However, enabling multiple robots to follow natural language instructions in dynamic environments remains challenging due to the lack of mechanisms to ground language in coordinated, temporally synchronized, vision-aware action plans. To address these challenges and enable robust collaboration, we present PRISM, a hierarchical vision-language framework that grounds natural-language instructions in synchronized multi-robot workflows by dynamically injecting synchronization constraints via predicate reasoning over multimodal observations and execution history. Additionally, to enable systematic evaluation of multi-robot collaboration, we introduce CoRL-Bench, an extended benchmark comprising ten two-robot manipulation tasks spanning sequential coordination, parallel coordination, coupled interaction, and behavior-aware reasoning. Experiments on CoRL-Bench show that PRISM achieves an average task success rate of 0.76 and an average subtask success rate of 0.91, outperforming the other evaluated methods and approaching the performance of a centralized oracle. We further validate PRISM through physical-robot experiments, achieving an average task success rate of 0.92 across the collaborative tasks tested. These results demonstrate that PRISM bridges the gap between adaptive, language-grounded planning and temporal coordination, enabling synchronized multi-robot collaboration at execution time. The project benchmark and code are available at https://prism-vla.github.io.
       </p>
     </div>
   </div>
